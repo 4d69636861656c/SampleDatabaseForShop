@@ -14,7 +14,7 @@ CREATE TABLE Users
 (
 	UserID				INT NOT NULL PRIMARY KEY,
 	UserName			NVARCHAR(25) NOT NULL,
-	UserPassword		NVARCHAR(25) NOT NULL,
+	UserPassword			NVARCHAR(25) NOT NULL,
 	Email				NVARCHAR(100) NOT NULL,
 	Phone				NUMERIC,
 	CreatedOn			DATETIME,
@@ -24,7 +24,7 @@ CREATE TABLE Users
 -- CustomerAddress table 
 CREATE TABLE CustomerAddress 
 (
-	CustomerAddressID	INT NOT NULL PRIMARY KEY,
+	CustomerAddressID		INT NOT NULL PRIMARY KEY,
 	UserID				INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
 	FirstName			NVARCHAR(100) NOT NULL,
 	LastName			NVARCHAR(100) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE Products
 -- ProductVariant table  
 CREATE TABLE ProductVariant
 (
-	ProductVariantID	INT NOT NULL PRIMARY KEY,
+	ProductVariantID		INT NOT NULL PRIMARY KEY,
 	ProductID			INT NOT NULL FOREIGN KEY REFERENCES Products(ProductID),
 	Color				NVARCHAR(25),
 	Weight				DECIMAL(8,2),
@@ -72,7 +72,7 @@ CREATE TABLE ProductVariant
 CREATE TABLE OrderData
 (
 	OrderID				INT NOT NULL PRIMARY KEY,
-	CustomerAddressID	INT NOT NULL FOREIGN KEY REFERENCES CustomerAddress(CustomerAddressID),
+	CustomerAddressID		INT NOT NULL FOREIGN KEY REFERENCES CustomerAddress(CustomerAddressID),
 	Coupon				NVARCHAR(25),
 	Status				NVARCHAR(255) NOT NULL,
 	OrderDate			DATETIME NOT NULL,
@@ -83,6 +83,6 @@ CREATE TABLE OrderData
 CREATE TABLE OrderDetails
 (
 	OrderID				INT NOT NULL FOREIGN KEY REFERENCES OrderData(OrderID),
-	ProductVariantID	INT NOT NULL FOREIGN KEY REFERENCES ProductVariant(ProductVariantID),
+	ProductVariantID		INT NOT NULL FOREIGN KEY REFERENCES ProductVariant(ProductVariantID),
 	Quantity			INT NOT NULL
 )
