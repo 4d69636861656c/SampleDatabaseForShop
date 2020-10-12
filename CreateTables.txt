@@ -1,0 +1,88 @@
+-- Table creation 
+
+-- Get rid of tables if they exist 
+DROP TABLE IF EXISTS CustomerAddress 
+DROP TABLE IF EXISTS Users 
+DROP TABLE IF EXISTS Category 
+DROP TABLE IF EXISTS Products 
+DROP TABLE IF EXISTS ProductVariant 
+DROP TABLE IF EXISTS OrderData 
+DROP TABLE IF EXISTS OrderDetails 
+
+-- Users table 
+CREATE TABLE Users
+(
+	UserID				INT NOT NULL PRIMARY KEY,
+	UserName			NVARCHAR(25) NOT NULL,
+	UserPassword		NVARCHAR(25) NOT NULL,
+	Email				NVARCHAR(100) NOT NULL,
+	Phone				NUMERIC,
+	CreatedOn			DATETIME,
+	Active				TINYINT
+)
+
+-- CustomerAddress table 
+CREATE TABLE CustomerAddress 
+(
+	CustomerAddressID	INT NOT NULL PRIMARY KEY,
+	UserID				INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
+	FirstName			NVARCHAR(100) NOT NULL,
+	LastName			NVARCHAR(100) NOT NULL,
+	Street				NVARCHAR(255) NOT NULL,
+	Number				INT NOT NULL,
+	City				NVARCHAR(100) NOT NULL,
+	Region				NVARCHAR(100) NOT NULL,
+	Country				NVARCHAR(100) NOT NULL,
+	Code				NUMERIC NOT NULL
+)
+
+-- Category table
+CREATE TABLE Category
+(
+	CategoryID			INT NOT NULL PRIMARY KEY,
+	Name				NVARCHAR(50) NOT NULL,
+	Description			NVARCHAR(255),
+	CreatedOn			DATETIME
+)
+
+-- Products table 
+CREATE TABLE Products 
+(
+	ProductID			INT NOT NULL PRIMARY KEY,
+	CategoryID			INT NOT NULL FOREIGN KEY REFERENCES Category(CategoryID),
+	Name				NVARCHAR(100) NOT NULL,
+	Price				DECIMAL(18,2) NOT NULL,
+	Discount			DECIMAL(10,10),
+	Description			NVARCHAR(255),
+	CreatedOn			DATETIME,
+	EditedOn			DATETIME,
+)
+
+-- ProductVariant table  
+CREATE TABLE ProductVariant
+(
+	ProductVariantID	INT NOT NULL PRIMARY KEY,
+	ProductID			INT NOT NULL FOREIGN KEY REFERENCES Products(ProductID),
+	Color				NVARCHAR(25),
+	Weight				DECIMAL(8,2),
+	Quantity			INT
+)
+
+-- Orders table 
+CREATE TABLE OrderData
+(
+	OrderID				INT NOT NULL PRIMARY KEY,
+	CustomerAddressID	INT NOT NULL FOREIGN KEY REFERENCES CustomerAddress(CustomerAddressID),
+	Coupon				NVARCHAR(25),
+	Status				NVARCHAR(255) NOT NULL,
+	OrderDate			DATETIME NOT NULL,
+	ShippedDate			DATETIME NOT NULL
+)
+
+-- OrderDetails table 
+CREATE TABLE OrderDetails
+(
+	OrderID				INT NOT NULL FOREIGN KEY REFERENCES OrderData(OrderID),
+	ProductVariantID	INT NOT NULL FOREIGN KEY REFERENCES ProductVariant(ProductVariantID),
+	Quantity			INT NOT NULL
+)

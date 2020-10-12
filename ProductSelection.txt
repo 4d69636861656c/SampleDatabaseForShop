@@ -1,0 +1,10 @@
+SELECT 
+	p.Name,
+	p.Price,
+	c.Name
+FROM
+    dbo.Products p
+INNER JOIN Category c 
+    ON c.CategoryID = p.CategoryID
+ORDER BY
+    p.Name DESC;
